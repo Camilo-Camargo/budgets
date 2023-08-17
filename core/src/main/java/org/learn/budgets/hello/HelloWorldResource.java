@@ -1,4 +1,4 @@
-package org.eclipse.jakarta.hello;
+package org.learn.budgets.hello;
 
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;

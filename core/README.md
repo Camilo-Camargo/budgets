@@ -13,13 +13,13 @@ You can also run the project via Docker. To build the Docker image, execute the 
 
 ```
 ./mvnw clean package
-docker build -t jakartaee-hello-world:v1 .
+docker build -t budgets:v1 .
 ```
 
 You can then run the Docker image by executing:
 
 ```
-docker run -it --rm -p 8080:8080 jakartaee-hello-world:v1
+docker run -it --rm -p 8080:8080 budgets:v1
 ```
 
-Once the runtime starts, you can access the project at http://localhost:8080/jakartaee-hello-world.
+Once the runtime starts, you can access the project at http://localhost:8080/budgets.

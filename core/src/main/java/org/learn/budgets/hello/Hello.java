@@ -1,4 +1,4 @@
-package org.eclipse.jakarta.hello;
+package org.learn.budgets.hello;
 
 public class Hello {
 
