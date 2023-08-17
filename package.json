@@ -1,0 +1,10 @@
+{
+  "name": "budgets",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "camilo-camargo <camilocamargo49@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@angular/cli": "^16.2.0"
+  }
+}
