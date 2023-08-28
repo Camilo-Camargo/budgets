@@ -1,8 +1,17 @@
 {
+  "private": true,
   "name": "budgets",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "main": "index.js",
   "author": "camilo-camargo <camilocamargo49@gmail.com>",
+  "scripts": {
+    "dev": "yarn workspace @budgets/web run dev & yarn workspace @budgets/core run dev"
+  },
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
+  },
   "license": "MIT",
   "devDependencies": {
     "@angular/cli": "^16.2.0"

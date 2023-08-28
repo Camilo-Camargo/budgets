@@ -1,0 +1,9 @@
+{
+  "name": "@budgets/core",
+  "version": "0.0.1",
+  "main": "index.js",
+  "scripts": {
+    "dev": "mvn clean package wildfly:dev"
+  },
+  "license": "MIT"
+}
