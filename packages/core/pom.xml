@@ -18,7 +18,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>learn-official.org</groupId>
+    <groupId>org.learnofficial</groupId>
     <artifactId>budgets</artifactId>
     <version>0.0.1</version>
     
@@ -145,14 +145,7 @@
                 <version>${version.wildfly.maven.plugin}</version>
                 <inherited>true</inherited>
                 <configuration>
-                    <add-user>
-                        <users>
-                            <user>
-                                <username>wildfly</username>
-                                <password>wildfly</password>
-                            </user>
-                        </users>
-                    </add-user>
+                    <skip>true</skip>
                 </configuration>
             </plugin>
         </plugins>
