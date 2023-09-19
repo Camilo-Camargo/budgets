@@ -15,13 +15,14 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.learnofficial</groupId>
     <artifactId>budgets</artifactId>
     <version>0.0.1</version>
-    
+
     <packaging>pom</packaging>
     <name>budgets</name>
     <description>Insert description for your project here.</description>
@@ -52,6 +53,9 @@
         <version.surefire.plugin>3.0.0</version.surefire.plugin>
         <version.failsafe.plugin>3.0.0</version.failsafe.plugin>
         <version.war.plugin>3.3.2</version.war.plugin>
+
+        <version.server>29.0.0.Final</version.server>
+        <version.wildfly-datasources-galleon-pack>5.0.0.Final</version.wildfly-datasources-galleon-pack>
 
         <!-- maven-compiler-plugin -->
         <maven.compiler.release>11</maven.compiler.release>
@@ -109,7 +113,7 @@
                 <type>war</type>
                 <scope>compile</scope>
             </dependency>
-            
+
             <!-- JBoss distributes a complete set of Jakarta EE 8 APIs including
                 a Bill of Materials (BOM). A BOM specifies the versions of a "stack" (or 
                 a collection) of artifacts. We use this here so that we always get the correct 
@@ -124,34 +128,69 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-    <build>
-        <plugins>
-            <!--Configuration of the maven-compiler-plugin -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>${version.compiler.plugin}</version>
-                <configuration>
-                    <!-- put your configurations here -->
-                </configuration>
-            </plugin>
-            <!-- The WildFly plugin deploys your ear to a local JBoss AS container -->
-            <!-- Due to Maven's lack of intelligence with EARs we need 
+    <profiles>
+        <profile>
+            <id>provisioned-server</id>
+            <build>
+                <plugins>
+                    <!--Configuration
+            of the maven-compiler-plugin -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <version>${version.compiler.plugin}</version>
+                        <configuration>
+                            <!-- put your configurations here -->
+                        </configuration>
+                    </plugin>
+                    <!-- The WildFly plugin deploys your ear to a local JBoss AS container -->
+                    <!-- Due to Maven's lack of intelligence with EARs we need 
                  to configure the wildfly maven plugin to skip deployment for all modules.
                  We then enable it specifically in the ear module. -->
-            <plugin>
-                <groupId>org.wildfly.plugins</groupId>
-                <artifactId>wildfly-maven-plugin</artifactId>
-                <version>${version.wildfly.maven.plugin}</version>
-                <inherited>true</inherited>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+                    <plugin>
+                        <groupId>org.wildfly.plugins</groupId>
+                        <artifactId>wildfly-maven-plugin</artifactId>
+                        <version>${version.wildfly.maven.plugin}</version>
+                        <inherited>true</inherited>
+                        <configuration>
+                            <add-user>
+                                <users>
+                                    <user>
+                                        <username>learn</username>
+                                        <password>learn</password>
+                                    </user>
+                                </users>
+                            </add-user>
 
-    <profiles>
+                            <feature-packs>
+                                <feature-pack>
+                                    <location>org.wildfly:wildfly-galleon-pack:${version.server}</location>
+                                </feature-pack>
+                                <feature-pack>
+                                    <groupId>org.wildfly</groupId>
+                                    <artifactId>wildfly-datasources-galleon-pack</artifactId>
+                                    <version>${version.wildfly-datasources-galleon-pack}</version>
+                                </feature-pack>
+                            </feature-packs>
+                            <layers>
+                                <layer>cloud-server</layer>
+                                <layer>datasources-web-server</layer>
+                                <layer>mysql-datasource</layer>
+                            </layers>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>package</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+
+
+        </profile>
         <profile>
             <!-- All the modules that require nothing but WildFly /JBoss EAP -->
             <id>default</id>
@@ -159,10 +198,12 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
         </profile>
-        
+
         <profile>
-            <!-- An optional Arquillian testing profile that executes tests in your WildFly / JBoss EAP instance.
-                 This profile will start a new WildFly / JBoss EAP instance, and execute the test, shutting it down when done.
+            <!-- An optional Arquillian testing profile that executes tests in your WildFly / JBoss
+            EAP instance.
+                 This profile will start a new WildFly / JBoss EAP instance, and execute the test, shutting it down
+            when done.
                  Run with: mvn clean verify -Parq-managed -->
             <id>arq-managed</id>
             <dependencies>
@@ -199,7 +240,8 @@
         </profile>
 
         <profile>
-            <!-- An optional Arquillian testing profile that executes tests in a remote WildFly / JBoss EAP instance.
+            <!-- An optional Arquillian testing profile that executes tests in a remote WildFly /
+            JBoss EAP instance.
                  Run with: mvn clean verify -Parq-remote -->
             <id>arq-remote</id>
             <dependencies>
