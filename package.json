@@ -12,8 +12,5 @@
       "packages/*"
     ]
   },
-  "license": "MIT",
-  "devDependencies": {
-    "@angular/cli": "^16.2.0"
-  }
+  "license": "MIT"
 }

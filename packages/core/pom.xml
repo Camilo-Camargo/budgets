@@ -176,6 +176,8 @@
                                 <layer>cloud-server</layer>
                                 <layer>datasources-web-server</layer>
                                 <layer>mysql-datasource</layer>
+                                <layer>jaxrs</layer>
+                                <layer>web-console</layer>
                             </layers>
                         </configuration>
                         <executions>
