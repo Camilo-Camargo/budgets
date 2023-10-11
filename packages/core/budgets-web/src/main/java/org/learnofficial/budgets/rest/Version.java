@@ -1,4 +1,4 @@
-package org.learnofficial.rest;
+package org.learnofficial.budgets.rest;
 
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;

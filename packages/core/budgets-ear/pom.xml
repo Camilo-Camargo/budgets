@@ -19,7 +19,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.learnofficial</groupId>
+        <groupId>org.learnofficial.budgets</groupId>
         <artifactId>budgets</artifactId>
         <version>0.0.1</version>
     </parent>

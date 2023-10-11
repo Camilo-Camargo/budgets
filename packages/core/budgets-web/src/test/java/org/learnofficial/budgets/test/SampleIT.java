@@ -1,4 +1,4 @@
-package org.learnofficial.test;
+package org.learnofficial.budgets.test;
 
 import java.io.File;
 
@@ -49,7 +49,7 @@ public class SampleIT {
         // The manifest file is auto created by the Maven EAR plugin - we don't have it here.
 
         // Add the package containing the test classes:
-        war.addPackage("org.learnofficial.test");
+        war.addPackage("org.learnofficial.budgets.test");
 
         // Export the EAR file to examine it in case of problems:
         // ear.as(ZipExporter.class).exportTo(new File("c:\\temp\\test.ear"), true);

@@ -19,7 +19,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.learnofficial</groupId>
+    <groupId>org.learnofficial.budgets</groupId>
     <artifactId>budgets</artifactId>
     <version>0.0.1</version>
 
@@ -128,71 +128,80 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-    <profiles>
-        <profile>
-            <id>provisioned-server</id>
-            <build>
-                <plugins>
-                    <!--Configuration
+    <build>
+        <plugins>
+            <!--Configuration
             of the maven-compiler-plugin -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-compiler-plugin</artifactId>
-                        <version>${version.compiler.plugin}</version>
-                        <configuration>
-                            <!-- put your configurations here -->
-                        </configuration>
-                    </plugin>
-                    <!-- The WildFly plugin deploys your ear to a local JBoss AS container -->
-                    <!-- Due to Maven's lack of intelligence with EARs we need 
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${version.compiler.plugin}</version>
+                <configuration>
+                    <!-- put your configurations here -->
+                </configuration>
+            </plugin>
+            <!-- The WildFly plugin deploys your ear to a local JBoss AS container -->
+            <!-- Due to Maven's lack of intelligence with EARs we need 
+                 to configure the wildfly maven plugin to skip deployment for all modules.
+            We then enable it specifically in the ear module. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${version.compiler.plugin}</version>
+                <configuration>
+                    <!-- put your configurations here -->
+                </configuration>
+            </plugin>
+            <!-- The WildFly plugin deploys your ear to a local JBoss AS container -->
+            <!-- Due to Maven's lack of intelligence with EARs we need
                  to configure the wildfly maven plugin to skip deployment for all modules.
                  We then enable it specifically in the ear module. -->
-                    <plugin>
-                        <groupId>org.wildfly.plugins</groupId>
-                        <artifactId>wildfly-maven-plugin</artifactId>
-                        <version>${version.wildfly.maven.plugin}</version>
-                        <inherited>true</inherited>
-                        <configuration>
-                            <add-user>
-                                <users>
-                                    <user>
-                                        <username>learn</username>
-                                        <password>learn</password>
-                                    </user>
-                                </users>
-                            </add-user>
+            <plugin>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
+                <version>${version.wildfly.maven.plugin}</version>
+                <inherited>true</inherited>
+                <configuration>
+                    <add-user>
+                        <users>
+                            <user>
+                                <username>learn</username>
+                                <password>learn</password>
+                            </user>
+                        </users>
+                    </add-user>
 
-                            <feature-packs>
-                                <feature-pack>
-                                    <location>org.wildfly:wildfly-galleon-pack:${version.server}</location>
-                                </feature-pack>
-                                <feature-pack>
-                                    <groupId>org.wildfly</groupId>
-                                    <artifactId>wildfly-datasources-galleon-pack</artifactId>
-                                    <version>${version.wildfly-datasources-galleon-pack}</version>
-                                </feature-pack>
-                            </feature-packs>
-                            <layers>
-                                <layer>cloud-server</layer>
-                                <layer>datasources-web-server</layer>
-                                <layer>mysql-datasource</layer>
-                                <layer>jaxrs</layer>
-                                <layer>web-console</layer>
-                            </layers>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>package</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
+                    <feature-packs>
+                        <feature-pack>
+                            <location>org.wildfly:wildfly-galleon-pack:${version.server}</location>
+                        </feature-pack>
+                        <feature-pack>
+                            <groupId>org.wildfly</groupId>
+                            <artifactId>wildfly-datasources-galleon-pack</artifactId>
+                            <version>${version.wildfly-datasources-galleon-pack}</version>
+                        </feature-pack>
+                    </feature-packs>
+                    <layers>
+                        <layer>cloud-server</layer>
+                        <layer>datasources-web-server</layer>
+                        <layer>mysql-datasource</layer>
+                        <layer>jaxrs</layer>
+                        <layer>cdi</layer>
+                        <layer>web-console</layer>
+                    </layers>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>package</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
-
-        </profile>
+    <profiles>
         <profile>
             <!-- All the modules that require nothing but WildFly /JBoss EAP -->
             <id>default</id>
